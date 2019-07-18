@@ -2,7 +2,9 @@ package com.thoughtworks.parking_lot.controller;
 
 import com.thoughtworks.parking_lot.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,4 +20,14 @@ public class ParkingLotController {
     public ResponseEntity findAllParkingLots () {
         return ResponseEntity.ok(parkingLotService.findAllParkingLots());
     }
+
+    @DeleteMapping
+    public ResponseEntity deleteParkingLot() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+
+
+
+
 }
