@@ -16,4 +16,8 @@ public class ParkingLotService {
     public List<ParkingLot> findAllParkingLots() {
         return parkingLotRepository.findAll();
     }
+
+    public void deleteParkingLot(ParkingLot parkingLot) {
+        parkingLotRepository.delete(parkingLot);
+    }
 }
