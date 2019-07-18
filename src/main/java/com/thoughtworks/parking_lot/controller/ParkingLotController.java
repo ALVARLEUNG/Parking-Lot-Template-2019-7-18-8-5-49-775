@@ -1,11 +1,15 @@
 package com.thoughtworks.parking_lot.controller;
 
+import com.thoughtworks.parking_lot.model.Order;
 import com.thoughtworks.parking_lot.model.ParkingLot;
+import com.thoughtworks.parking_lot.service.OrderService;
 import com.thoughtworks.parking_lot.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/parkingLots")
@@ -14,32 +18,43 @@ public class ParkingLotController {
     @Autowired
     ParkingLotService parkingLotService;
 
+    @Autowired
+    OrderService orderService;
+
+    @PostMapping
+    public void createParkingLot (@RequestBody ParkingLot parkingLot) {
+        parkingLotService.createParkingLot(parkingLot);
+    }
+
     @GetMapping
-    public ResponseEntity findAllParkingLots () {
-        return ResponseEntity.ok(parkingLotService.findAllParkingLots());
+    public List<ParkingLot> findAllParkingLots () {
+        return parkingLotService.findAllParkingLots();
     }
 
     @DeleteMapping
-    public ResponseEntity deleteParkingLot(@RequestBody ParkingLot parkingLot) {
+    public void deleteParkingLot(@RequestBody ParkingLot parkingLot) {
         parkingLotService.deleteParkingLot(parkingLot);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity findParkingLot (@PathVariable Long id) {
-        return ResponseEntity.ok(parkingLotService.findParkingById(id));
+    public ParkingLot findParkingLot (@PathVariable Long id) {
+        return parkingLotService.findParkingById(id);
     }
 
 
     @PutMapping
-    public ResponseEntity updateParkingLot (@RequestBody ParkingLot parkingLot) {
+    public void updateParkingLot (@RequestBody ParkingLot parkingLot) {
         parkingLotService.updateParkingLot(parkingLot);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/pageNumber/{pageNumber}/pageSize/{pageSize}")
-    public ResponseEntity findParkingLotByPageSize(@PathVariable int pageNumber, @PathVariable int pageSize) {
-        return ResponseEntity.ok(parkingLotService.findAllParkingLotsByPageSize(pageNumber, pageSize));
+    public List<ParkingLot> findParkingLotByPageSize(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        return parkingLotService.findAllParkingLotsByPageSize(pageNumber, pageSize);
+    }
+
+    @PostMapping("/{id}/orders/{cartNumber}")
+    public Order createOrder (@PathVariable Long id, @PathVariable String cartNumber) {
+        return orderService.createOrder(id, cartNumber);
     }
 
 

@@ -3,6 +3,8 @@ package com.thoughtworks.parking_lot.model;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import java.util.List;
 
 @Entity
 public class ParkingLot {
@@ -15,10 +17,14 @@ public class ParkingLot {
     private String name;
 
     @Column(name = "capacity")
+    @Min(value = 0)
     private int capacity;
 
     @Column(name = "position")
     private String position;
+
+    @OneToMany
+    List<Order> orders;
 
     public Long getId() {
         return id;
@@ -50,5 +56,13 @@ public class ParkingLot {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
     }
 }

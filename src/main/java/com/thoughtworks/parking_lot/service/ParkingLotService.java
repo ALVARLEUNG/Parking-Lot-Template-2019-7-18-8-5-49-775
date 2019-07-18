@@ -33,4 +33,8 @@ public class ParkingLotService {
     public List<ParkingLot> findAllParkingLotsByPageSize(int pageNumber, int pageSize) {
         return parkingLotRepository.findAll(PageRequest.of(pageNumber - 1, pageSize)).getContent();
     }
+
+    public void createParkingLot(ParkingLot parkingLot) {
+        if (parkingLot.getCapacity() > 0) parkingLotRepository.save(parkingLot);
+    }
 }
