@@ -24,4 +24,8 @@ public class ParkingLotService {
     public ParkingLot findParkingById(Long id) {
         return parkingLotRepository.findById(id).orElse(new ParkingLot());
     }
+
+    public void updateParkingLot(ParkingLot parkingLot) {
+        if (parkingLot.getCapacity()>0) parkingLotRepository.save(parkingLot);
+    }
 }

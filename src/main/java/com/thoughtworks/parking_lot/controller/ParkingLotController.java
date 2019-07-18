@@ -31,8 +31,11 @@ public class ParkingLotController {
     }
 
 
-
-
+    @PutMapping
+    public ResponseEntity updateParkingLot (@RequestBody ParkingLot parkingLot) {
+        parkingLotService.updateParkingLot(parkingLot);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 
 
