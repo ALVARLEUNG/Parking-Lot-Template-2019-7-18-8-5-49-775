@@ -25,6 +25,13 @@ public class ParkingLotController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity findParkingLot (@PathVariable Long id) {
+        return ResponseEntity.ok(parkingLotService.findParkingById(id));
+    }
+
+
+
 
 
 

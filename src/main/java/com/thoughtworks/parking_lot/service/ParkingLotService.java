@@ -20,4 +20,8 @@ public class ParkingLotService {
     public void deleteParkingLot(ParkingLot parkingLot) {
         parkingLotRepository.delete(parkingLot);
     }
+
+    public ParkingLot findParkingById(Long id) {
+        return parkingLotRepository.findById(id).orElse(new ParkingLot());
+    }
 }
