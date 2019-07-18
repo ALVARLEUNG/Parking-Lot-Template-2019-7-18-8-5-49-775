@@ -37,6 +37,10 @@ public class ParkingLotController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @GetMapping("/pageNumber/{pageNumber}/pageSize/{pageSize}")
+    public ResponseEntity findParkingLotByPageSize(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        return ResponseEntity.ok(parkingLotService.findAllParkingLotsByPageSize(pageNumber, pageSize));
+    }
 
 
 }
