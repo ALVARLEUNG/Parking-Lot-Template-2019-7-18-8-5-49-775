@@ -1,12 +1,10 @@
 package com.thoughtworks.parking_lot.controller;
 
-import com.thoughtworks.parking_lot.model.Order;
+import com.thoughtworks.parking_lot.model.ParkingLotOrder;
 import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.service.OrderService;
 import com.thoughtworks.parking_lot.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,12 +20,12 @@ public class ParkingLotController {
     OrderService orderService;
 
     @PostMapping
-    public void createParkingLot (@RequestBody ParkingLot parkingLot) {
+    public void createParkingLot(@RequestBody ParkingLot parkingLot) {
         parkingLotService.createParkingLot(parkingLot);
     }
 
     @GetMapping
-    public List<ParkingLot> findAllParkingLots () {
+    public List<ParkingLot> findAllParkingLots() {
         return parkingLotService.findAllParkingLots();
     }
 
@@ -37,13 +35,13 @@ public class ParkingLotController {
     }
 
     @GetMapping("/{id}")
-    public ParkingLot findParkingLot (@PathVariable Long id) {
+    public ParkingLot findParkingLot(@PathVariable Long id) {
         return parkingLotService.findParkingById(id);
     }
 
 
     @PutMapping
-    public void updateParkingLot (@RequestBody ParkingLot parkingLot) {
+    public void updateParkingLot(@RequestBody ParkingLot parkingLot) {
         parkingLotService.updateParkingLot(parkingLot);
     }
 
@@ -53,9 +51,15 @@ public class ParkingLotController {
     }
 
     @PostMapping("/{id}/orders/{cartNumber}")
-    public Order createOrder (@PathVariable Long id, @PathVariable String cartNumber) {
+    public ParkingLotOrder createOrder(@PathVariable Long id, @PathVariable String cartNumber) {
         return orderService.createOrder(id, cartNumber);
     }
+
+    @PutMapping("/{id}/orders/{cartNumber}")
+    public ParkingLotOrder fetchTheCart(@PathVariable Long id, @PathVariable String cartNumber) {
+        return orderService.fetchTheCart(id, cartNumber);
+    }
+
 
 
 }

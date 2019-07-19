@@ -1,12 +1,14 @@
 package com.thoughtworks.parking_lot.service;
 
-import com.thoughtworks.parking_lot.model.Order;
+import com.thoughtworks.parking_lot.model.ParkingLotOrder;
+import com.thoughtworks.parking_lot.model.ParkingLot;
 import com.thoughtworks.parking_lot.repository.OrderRepository;
 import com.thoughtworks.parking_lot.repository.ParkingLotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -17,13 +19,25 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
-    public Order createOrder(Long parkingLotId, String cartNumber) {
-        if(!parkingLotRepository.findById(parkingLotId).orElse(null).equals(null)) {
-            Order order = new Order();
-            order.setCartNumber(cartNumber);
-            order.setStatus(1);
-            order.setStartTime(new Date());
-            return orderRepository.save(order);
+    public ParkingLotOrder createOrder(Long parkingLotId, String cartNumber) {
+        ParkingLot parkingLot = parkingLotRepository.findById(parkingLotId).orElse(null);
+        if (parkingLot.equals(null) && parkingLot.getCapacity() > parkingLot.getParkingLotOrders().size()) {
+            ParkingLotOrder parkingLotOrder = new ParkingLotOrder();
+            parkingLotOrder.setCartNumber(cartNumber);
+            parkingLotOrder.setStatus(1);
+            parkingLotOrder.setStartTime(new Date());
+            return orderRepository.save(parkingLotOrder);
+        }
+        return null;
+    }
+
+    public ParkingLotOrder fetchTheCart(Long id, String cartNumber) {
+        ParkingLot parkingLot = parkingLotRepository.findById(id).orElse(new ParkingLot());
+        ParkingLotOrder parkingLotOrder = (parkingLot.getParkingLotOrders().stream().filter(i -> i.getStatus() == 1 && i.getCartNumber().equals(cartNumber)).collect(Collectors.toList())).get(0);
+        if (parkingLotOrder != null) {
+            parkingLotOrder.setStatus(0);
+            parkingLotOrder.setEndTime(new Date());
+            return orderRepository.save(parkingLotOrder);
         }
         return null;
     }

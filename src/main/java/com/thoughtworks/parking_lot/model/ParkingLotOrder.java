@@ -4,15 +4,13 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Order {
+public class ParkingLotOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "parkingLot_id", referencedColumnName = "id")
-    private ParkingLot parkingLot;
+    private String parkingLotName;
 
     @Column(name = "cart_number")
     private String cartNumber;
@@ -34,12 +32,12 @@ public class Order {
         this.id = id;
     }
 
-    public ParkingLot getParkingLot() {
-        return parkingLot;
+    public String getParkingLotName() {
+        return parkingLotName;
     }
 
-    public void setParkingLot(ParkingLot parkingLot) {
-        this.parkingLot = parkingLot;
+    public void setParkingLotName(String parkingLotName) {
+        this.parkingLotName = parkingLotName;
     }
 
     public String getCartNumber() {

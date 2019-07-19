@@ -1,12 +1,11 @@
 package com.thoughtworks.parking_lot.model;
 
-import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import java.util.List;
 
 @Entity
+@Table(name = "parking_lot")
 public class ParkingLot {
 
     @Id
@@ -23,8 +22,9 @@ public class ParkingLot {
     @Column(name = "position")
     private String position;
 
-    @OneToMany
-    List<Order> orders;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "name")
+    List<ParkingLotOrder> parkingLotOrders;
 
     public Long getId() {
         return id;
@@ -58,11 +58,11 @@ public class ParkingLot {
         this.position = position;
     }
 
-    public List<Order> getOrders() {
-        return orders;
+    public List<ParkingLotOrder> getParkingLotOrders() {
+        return parkingLotOrders;
     }
 
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
+    public void setParkingLotOrders(List<ParkingLotOrder> parkingLotOrders) {
+        this.parkingLotOrders = parkingLotOrders;
     }
 }
